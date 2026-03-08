@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Insurance Fraud Detection</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-left">
+      <span class="dot"></span>
+      <span class="tag">INS-FRAUD-ML v2.0</span>
+    </div>
+    <h1 class="site-title">INSURANCE FRAUD DETECTION</h1>
+    <div class="header-right">
+      <span class="tag">17 FEATURES · 6 ALGORITHMS · SMOTE</span>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <!-- PAGE HEADING -->
+  <div class="page-head">
+    <p class="eyebrow">ML MODEL PREDICTION</p>
+    <h2 class="page-title">ENTER CLAIM DETAILS</h2>
+    <p class="page-sub">
+      Fill in all 17 feature values below. The entered values are passed directly
+      to the trained model and the prediction is displayed on the result page.
+    </p>
+  </div>
+
+  <!-- PREDICTION FORM -->
+  <!-- Whenever you enter values, they are retrieved using POST method -->
+  <form action="/predict" method="POST" class="card">
+
+    <div class="form-grid">
+
+      <!-- 1. Accident Area -->
+      <div class="form-group">
+        <label for="AccidentArea">ACCIDENT AREA</label>
+        <select name="AccidentArea" id="AccidentArea" required>
+          <option value="Urban">Urban</option>
+          <option value="Rural">Rural</option>
+        </select>
+      </div>
+
+      <!-- 2. Sex -->
+      <div class="form-group">
+        <label for="Sex">SEX</label>
+        <select name="Sex" id="Sex" required>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </div>
+
+      <!-- 3. Marital Status -->
+      <div class="form-group">
+        <label for="MaritalStatus">MARITAL STATUS</label>
+        <select name="MaritalStatus" id="MaritalStatus" required>
+          <option value="Single">Single</option>
+          <option value="Married">Married</option>
+          <option value="Widow">Widow</option>
+          <option value="Divorced">Divorced</option>
+        </select>
+      </div>
+
+      <!-- 4. Age -->
+      <div class="form-group">
+        <label for="Age">AGE</label>
+        <input type="number" name="Age" id="Age"
+               min="16" max="100" placeholder="16 – 100" required />
+      </div>
+
+      <!-- 5. Fault -->
+      <div class="form-group">
+        <label for="Fault">FAULT</label>
+        <select name="Fault" id="Fault" required>
+          <option value="Policy Holder">Policy Holder</option>
+          <option value="Third Party">Third Party</option>
+        </select>
+      </div>
+
+      <!-- 6. Policy Type -->
+      <div class="form-group">
+        <label for="PolicyType">POLICY TYPE</label>
+        <select name="PolicyType" id="PolicyType" required>
+          <option value="Sport - Liability">Sport - Liability</option>
+          <option value="Sport - Collision">Sport - Collision</option>
+          <option value="Sport - All Perils">Sport - All Perils</option>
+          <option value="Sedan - Liability">Sedan - Liability</option>
+          <option value="Sedan - Collision">Sedan - Collision</option>
+          <option value="Sedan - All Perils">Sedan - All Perils</option>
+          <option value="Utility - Liability">Utility - Liability</option>
+          <option value="Utility - Collision">Utility - Collision</option>
+          <option value="Utility - All Perils">Utility - All Perils</option>
+        </select>
+      </div>
+
+      <!-- 7. Vehicle Price -->
+      <div class="form-group">
+        <label for="VehiclePrice">VEHICLE PRICE</label>
+        <select name="VehiclePrice" id="VehiclePrice" required>
+          <option value="less than 20,000">Less than 20,000</option>
+          <option value="20,000 to 29,000">20,000 to 29,000</option>
+          <option value="30,000 to 39,000">30,000 to 39,000</option>
+          <option value="40,000 to 59,000">40,000 to 59,000</option>
+          <option value="60,000 to 69,000">60,000 to 69,000</option>
+          <option value="more than 69,000">More than 69,000</option>
+        </select>
+      </div>
+
+      <!-- 8. Deductible -->
+      <div class="form-group">
+        <label for="Deductible">DEDUCTIBLE ($)</label>
+        <select name="Deductible" id="Deductible" required>
+          <option value="300">300</option>
+          <option value="400">400</option>
+          <option value="500">500</option>
+          <option value="700">700</option>
+        </select>
+      </div>
+
+      <!-- 9. Driver Rating -->
+      <div class="form-group">
+        <label for="DriverRating">DRIVER RATING</label>
+        <select name="DriverRating" id="DriverRating" required>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+
+      <!-- 10. Days: Policy → Accident -->
+      <div class="form-group">
+        <label for="Days:Policy-Accident">DAYS: POLICY → ACCIDENT</label>
+        <select name="Days:Policy-Accident" id="Days:Policy-Accident" required>
+          <option value="none">None</option>
+          <option value="1 to 7">1 to 7</option>
+          <option value="8 to 15">8 to 15</option>
+          <option value="15 to 30">15 to 30</option>
+          <option value="more than 30">More than 30</option>
+        </select>
+      </div>
+
+      <!-- 11. Days: Policy → Claim -->
+      <div class="form-group">
+        <label for="Days:Policy-Claim">DAYS: POLICY → CLAIM</label>
+        <select name="Days:Policy-Claim" id="Days:Policy-Claim" required>
+          <option value="none">None</option>
+          <option value="1 to 7">1 to 7</option>
+          <option value="8 to 15">8 to 15</option>
+          <option value="15 to 30">15 to 30</option>
+          <option value="more than 30">More than 30</option>
+        </select>
+      </div>
+
+      <!-- 12. Past Number of Claims -->
+      <div class="form-group">
+        <label for="PastNumberOfClaims">PAST NO. OF CLAIMS</label>
+        <select name="PastNumberOfClaims" id="PastNumberOfClaims" required>
+          <option value="none">None</option>
+          <option value="1">1</option>
+          <option value="2 to 4">2 to 4</option>
+          <option value="more than 4">More than 4</option>
+        </select>
+      </div>
+
+      <!-- 13. Age of Vehicle -->
+      <div class="form-group">
+        <label for="AgeOfVehicle">AGE OF VEHICLE</label>
+        <select name="AgeOfVehicle" id="AgeOfVehicle" required>
+          <option value="new">New</option>
+          <option value="2 years">2 Years</option>
+          <option value="3 years">3 Years</option>
+          <option value="4 years">4 Years</option>
+          <option value="5 years">5 Years</option>
+          <option value="6 years">6 Years</option>
+          <option value="7 years">7 Years</option>
+          <option value="more than 7">More than 7</option>
+        </select>
+      </div>
+
+      <!-- 14. Police Report Filed -->
+      <div class="form-group">
+        <label for="PoliceReportFiled">POLICE REPORT FILED</label>
+        <select name="PoliceReportFiled" id="PoliceReportFiled" required>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+      </div>
+
+      <!-- 15. Agent Type -->
+      <div class="form-group">
+        <label for="AgentType">AGENT TYPE</label>
+        <select name="AgentType" id="AgentType" required>
+          <option value="External">External</option>
+          <option value="Internal">Internal</option>
+        </select>
+      </div>
+
+      <!-- 16. Number of Suppliments -->
+      <div class="form-group">
+        <label for="NumberOfSuppliments">NUMBER OF SUPPLIMENTS</label>
+        <select name="NumberOfSuppliments" id="NumberOfSuppliments" required>
+          <option value="none">None</option>
+          <option value="1 to 2">1 to 2</option>
+          <option value="3 to 5">3 to 5</option>
+          <option value="more than 5">More than 5</option>
+        </select>
+      </div>
+
+      <!-- 17. Address Change – Claim -->
+      <div class="form-group">
+        <label for="AddressChange-Claim">ADDRESS CHANGE – CLAIM</label>
+        <select name="AddressChange-Claim" id="AddressChange-Claim" required>
+          <option value="no change">No Change</option>
+          <option value="under 6 months">Under 6 Months</option>
+          <option value="1 year">1 Year</option>
+          <option value="2 to 3 years">2 to 3 Years</option>
+          <option value="4 to 8 years">4 to 8 Years</option>
+        </select>
+      </div>
+
+    </div><!-- /form-grid -->
+
+    <!-- SUBMIT BUTTON — click to send values to model.predict() -->
+    <div class="submit-wrap">
+      <button type="submit" class="btn-predict">⚡ PREDICT</button>
+    </div>
+
+  </form>
+
+</main>
+
+<footer>
+  <span>INSURANCE FRAUD DETECTION · ML PROJECT · CARCLAIMS DATASET</span>
+</footer>
+
+</body>
+</html>

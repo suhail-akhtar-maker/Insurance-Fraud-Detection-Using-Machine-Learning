@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Prediction Result · Insurance Fraud Detection</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="header-left">
+      <span class="dot"></span>
+      <span class="tag">INS-FRAUD-ML v2.0</span>
+    </div>
+    <h1 class="site-title">INSURANCE FRAUD DETECTION</h1>
+    <div class="header-right">
+      <span class="tag">17 FEATURES · 6 ALGORITHMS · SMOTE</span>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="page-head">
+    <p class="eyebrow">MODEL OUTPUT</p>
+    <h2 class="page-title">PREDICTION RESULT</h2>
+    <p class="page-sub">
+      The entered values were passed to <code>model.predict()</code>.
+      The prediction is displayed below.
+    </p>
+  </div>
+
+  <!-- ── VERDICT ── -->
+  {% if prediction == "Fraud" %}
+  <div class="card verdict-card verdict-fraud">
+    <div class="verdict-stripe"></div>
+    <div class="verdict-icon">⚠️</div>
+    <div class="verdict-label">FRAUD</div>
+    <p class="verdict-sub">This claim shows indicators of fraudulent activity.</p>
+  </div>
+  {% else %}
+  <div class="card verdict-card verdict-genuine">
+    <div class="verdict-stripe"></div>
+    <div class="verdict-icon">✅</div>
+    <div class="verdict-label">GENUINE</div>
+    <p class="verdict-sub">This claim appears to be legitimate and genuine.</p>
+  </div>
+  {% endif %}
+
+  <!-- ── METRICS ── -->
+  <div class="metrics-row">
+
+    <div class="metric-card">
+      <span class="metric-label">MODEL CONFIDENCE</span>
+      <span class="metric-value" style="color:#00D4FF">{{ confidence }}%</span>
+      <div class="prog-track">
+        <div class="prog-blue" style="width:{{ confidence }}%"></div>
+      </div>
+    </div>
+
+    <div class="metric-card">
+      <span class="metric-label">FRAUD PROBABILITY</span>
+      <span class="metric-value" style="color:#F39C12">{{ fraud_prob }}%</span>
+      <div class="prog-track">
+        <div class="prog-red" style="width:{{ fraud_prob }}%"></div>
+      </div>
+    </div>
+
+    <div class="metric-card" style="text-align:center">
+      <span class="metric-label">RISK LEVEL</span>
+      {% if risk == "High" %}
+        <span class="metric-value" style="color:#E74C3C">HIGH</span>
+        <span class="risk-pill" style="color:#E74C3C;border-color:#E74C3C44">INVESTIGATE</span>
+      {% elif risk == "Medium" %}
+        <span class="metric-value" style="color:#F39C12">MEDIUM</span>
+        <span class="risk-pill" style="color:#F39C12;border-color:#F39C1244">REVIEW REQUIRED</span>
+      {% else %}
+        <span class="metric-value" style="color:#2ECC71">LOW</span>
+        <span class="risk-pill" style="color:#2ECC71;border-color:#2ECC7144">MINIMAL CONCERN</span>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <!-- ── ENTERED VALUES ── -->
+  <div class="card">
+    <div class="card-label">ENTERED CLAIM VALUES</div>
+    <div class="inputs-grid">
+      {% for key, val in inputs.items() %}
+      <div class="input-row">
+        <span class="input-key">{{ key }}</span>
+        <span class="input-val">{{ val }}</span>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- ── ACTIONS ── -->
+  <div class="actions">
+    <a href="/" class="btn-back">← PREDICT ANOTHER</a>
+  </div>
+
+</main>
+
+<footer>
+  <span>INSURANCE FRAUD DETECTION · ML PROJECT · CARCLAIMS DATASET</span>
+</footer>
+
+</body>
+</html>
