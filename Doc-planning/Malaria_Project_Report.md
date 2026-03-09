@@ -1,193 +1,256 @@
-# Malaria Detection using Deep Learning - Project Report
+# Insurance Fraud Detection using Machine Learning - Project Report
 
 ## Executive Summary
-This project successfully implements an end-to-end deep learning pipeline for automated malaria detection. A Convolutional Neural Network trained on the NIH Malaria Cell Images Dataset achieves 93.8% test accuracy and is served via a Flask web application for real-world usability.
 
-## Project Overview
+This project implements an end-to-end machine learning pipeline to detect fraudulent automobile insurance claims. Using historical claim data and multiple machine learning algorithms, the system learns patterns associated with fraud and predicts whether a new claim is **Fraudulent or Genuine**.
 
-**Project Title:** Malaria Detection using Deep Learning  
-**Domain:** Healthcare AI / Machine Learning  
-**Team Lead:** Soumya Ray  
-**Team Members:** Vansh Kumar Singh, Aarzoo Yadav, Aditya Raj  
-**Platform:** SkillWallet (myskillwallet.ai)  
+The final model is integrated into a simple web interface that allows users to input claim information and receive instant predictions. The system helps insurance companies reduce financial losses, improve investigation efficiency, and automate fraud detection.
+
+---
+
+# Project Overview
+
+**Project Title:** Insurance Fraud Detection using Machine Learning  
+**Domain:** Machine Learning / Financial Fraud Detection  
+**Platform:** GitHub Academic Project  
 
 ### Project Metrics
-- **Complexity:** Medium
-- **Duration:** 5 hours
+
+- **Complexity:** Medium–High
+- **Dataset Size:** ~15,000 insurance claim records
+- **Features Used:** 18
 - **Overall Progress:** 90%
-- **Total Commits:** 15
+- **Algorithms Tested:** 6 Machine Learning Models
 
-## Problem Statement
-Malaria remains one of the world's deadliest diseases, affecting millions annually. Traditional diagnosis relies on manual microscopic examination—time-consuming, labor-intensive, and requiring expert pathologists often unavailable in remote areas. This creates critical bottlenecks in timely diagnosis and treatment.
+---
 
-## Solution Overview
-Automated malaria detection system using Convolutional Neural Networks that:
-- Classifies microscopic blood smear images (Parasitized vs. Uninfected)
-- Provides instant, high-accuracy predictions (<2 seconds per image)
-- Operates via user-friendly Flask web interface
-- Requires no expert pathologist at point of diagnosis
-- Deployable in resource-constrained healthcare settings
+# Problem Statement
 
-## Project Results
+Insurance fraud is a major issue in the insurance industry, causing billions of dollars in losses every year. Fraudulent claims increase operational costs and make insurance more expensive for honest customers.
 
-### Model Performance
-| Metric | Training | Validation | Test |
-|--------|----------|-----------|------|
-| **Accuracy** | 96.2% | 94.1% | **93.8%** |
-| **Precision** | 95.8% | 93.6% | **93.2%** |
-| **Recall** | 96.5% | 94.4% | **94.0%** |
-| **F1 Score** | 96.1% | 94.0% | **93.6%** |
+Traditionally, insurance claims are verified manually by investigators. However, manual investigation is time-consuming, costly, and inefficient when dealing with thousands of claims.
+
+Detecting fraudulent claims among legitimate ones is challenging because fraud patterns are often complex and hidden in large datasets.
+
+Therefore, there is a need for an **automated fraud detection system** that can analyze historical claim data and quickly predict whether a claim is **fraudulent or genuine**.
+
+---
+
+# Solution Overview
+
+This project develops a **Machine Learning-based Insurance Fraud Detection System** that:
+
+- Analyzes historical claim data
+- Detects patterns associated with fraud
+- Predicts whether a claim is **Fraudulent or Genuine**
+- Assists investigators in identifying high-risk claims
+
+The solution includes:
+
+- Data cleaning and preprocessing
+- Exploratory Data Analysis (EDA)
+- Feature engineering and encoding
+- Handling class imbalance using **SMOTE**
+- Training and evaluating multiple ML models
+- Selecting the best performing model
+- Deploying the model through a simple **HTML & CSS interface**
+
+---
+
+# Project Results
+
+### Model Performance (Example Results)
+
+| Model | Accuracy | Precision | Recall | F1 Score |
+|------|----------|----------|-------|---------|
+| Decision Tree | 88% | 84% | 86% | 85% |
+| Random Forest | 91% | 89% | 90% | 89% |
+| KNN | 87% | 83% | 84% | 83% |
+| Logistic Regression | 89% | 86% | 88% | 87% |
+| SVM | 90% | 88% | 89% | 88% |
+| **Naive Bayes** | **92%** | **90%** | **91%** | **90%** |
 
 ### Technical Achievements
-✅ Designed and trained multi-layer CNN achieving 93% accuracy  
-✅ Implemented complete image pre-processing and data augmentation  
-✅ Built production-ready Flask web application  
-✅ Completed all 5 project milestones  
-✅ Achieved 90% overall progress on SkillWallet  
 
-## Technology Stack
+✅ Cleaned and processed a large insurance dataset  
+✅ Performed detailed Exploratory Data Analysis (EDA)  
+✅ Implemented multiple machine learning algorithms  
+✅ Solved class imbalance using **SMOTE**  
+✅ Performed hyperparameter tuning using **GridSearchCV**  
+✅ Built a simple web interface for fraud prediction  
+✅ Saved trained model using **Pickle** for deployment  
 
-**Deep Learning:**
-- TensorFlow 2.x
-- Keras Sequential Model
-- Convolutional Neural Networks (CNN)
+---
 
-**Image Processing:**
-- OpenCV (cv2)
+# Technology Stack
+
+### Programming & Data Processing
+- Python
+- Pandas
 - NumPy
-- Pillow (PIL)
 
-**Web Framework:**
-- Python 3.8
-- Flask (routing, templates)
-- Jinja2 (HTML templating)
-- HTML5 / CSS3 / JavaScript
-
-**Data Visualization:**
-- Matplotlib
-- Seaborn
-- Scikit-learn (metrics)
-
-**Version Control & Deployment:**
-- Git / GitHub
-- Local Flask development server
-- Cloud deployment ready (AWS, GCP, Heroku)
-
-## CNN Architecture
-
-```
-Input Layer: 64×64×3 RGB images
-
-Conv2D Layer 1: 32 filters, 3×3 kernel, ReLU
-↓
-MaxPooling2D: 2×2 pool
-↓
-Conv2D Layer 2: 64 filters, 3×3 kernel, ReLU
-↓
-MaxPooling2D: 2×2 pool
-↓
-Conv2D Layer 3: 128 filters, 3×3 kernel, ReLU
-↓
-MaxPooling2D: 2×2 pool
-↓
-Flatten
-↓
-Dense Layer 1: 128 units, ReLU, Dropout(0.5)
-↓
-Dense Output Layer: 1 unit, Sigmoid (binary classification)
-
-Total Parameters: ~600K
-Loss Function: Binary Crossentropy
-Optimizer: Adam
-Epochs: 20
-```
-
-## Key Features & Innovations
-
-### Automated Detection
-- CNN extracts parasite-indicative visual features automatically
-- Binary classification: Parasitized vs. Uninfected
-- Threshold decision at 0.5 probability
-
-### Web Interface
-- Simple HTML form for image upload
-- Server-side validation (JPEG/PNG only, file size limits)
-- Real-time prediction display with confidence score
-- Result page with visual feedback
+### Machine Learning
+- Scikit-learn
+- SMOTE (Imbalanced-learn)
 
 ### Data Visualization
-- Training/validation accuracy-loss curves
-- Confusion matrix with classification metrics
-- Sample predictions with overlaid labels
-- Performance dashboards
+- Matplotlib
+- Seaborn
 
-### Scalability & Deployment
-- Lightweight model (<10MB) suitable for edge devices
-- Stateless API design enables horizontal scaling
-- Offline capability for remote areas
-- Docker containerization-ready
+### Model Deployment
+- Pickle (.pkl)
 
-## Project Milestones
+### Frontend
+- HTML
+- CSS
+
+### Version Control
+- Git
+- GitHub
+
+---
+
+# Machine Learning Pipeline
+
+# Machine Learning Pipeline
+
+1. **Dataset Collection**
+2. **Data Cleaning**
+3. **Exploratory Data Analysis (EDA)**
+4. **Feature Engineering**
+5. **Categorical Feature Encoding**
+6. **Train-Test Split**
+7. **SMOTE (Class Imbalance Handling)**
+8. **Feature Scaling**
+9. **Train Multiple ML Models**
+10. **Model Evaluation**
+11. **Hyperparameter Tuning**
+12. **Best Model Selection**
+13. **Model Saving (.pkl)**
+14. **Web Interface for Fraud Prediction**
+
+# Key Features
+
+### Automated Fraud Detection
+
+- Predicts fraud automatically using machine learning
+- Reduces dependency on manual claim investigation
+- Provides fast and accurate predictions
+
+### Pattern Recognition
+
+- Detects hidden patterns in insurance claim data
+- Identifies suspicious claim behavior
+
+### Efficient Claim Processing
+
+- Filters high-risk claims automatically
+- Investigators focus only on suspicious cases
+
+### User Interface
+
+- Simple interface built with **HTML and CSS**
+- Allows users to input claim details
+- Displays prediction as **Fraud or Genuine**
+
+---
+
+# Project Milestones
 
 ### Milestone 1: Dataset Collection
-- ✅ Downloaded NIH Malaria Cell Images (27,558 images)
-- ✅ Organized into Parasitized/Uninfected folders
-- ✅ Verified data integrity and formats
-- ✅ Applied train/val/test split (70/15/15)
 
-### Milestone 2: Data Pre-processing
-- ✅ Implemented image resizing to 64×64
-- ✅ Normalized pixel values to [0,1]
-- ✅ Applied data augmentation (flip, zoom, rotation)
-- ✅ Converted to NumPy arrays for efficient loading
+- Collected automobile insurance fraud dataset
+- Verified data quality and structure
+- Identified 33 initial features
 
-### Milestone 3: Model Development
-- ✅ Designed CNN architecture with Conv2D, MaxPool, Dense layers
-- ✅ Trained model for 20 epochs
-- ✅ Achieved target accuracy (93.8% > 90%)
-- ✅ Generated evaluation metrics (precision, recall, F1)
+---
 
-### Milestone 4: Model Persistence
-- ✅ Saved trained model in HDF5 format
-- ✅ Verified model loading and inference
-- ✅ Tested prediction consistency
+### Milestone 2: Data Cleaning & Preprocessing
 
-### Milestone 5: Application & Deployment
-- ✅ Built Flask web application with routing
-- ✅ Implemented image upload and validation
-- ✅ Integrated CNN model for real-time inference
-- ✅ Deployed locally and verified end-to-end workflow
-- ✅ Pushed codebase to GitHub
+- Removed unnecessary columns
+- Handled missing values
+- Removed duplicate records
+- Performed outlier detection using **IQR**
 
-## Expected Impact
+---
 
-### Clinical Benefits
-- **Speed:** Diagnosis time reduced from hours to <2 seconds
-- **Accuracy:** AI-consistent results (93.8% accuracy)
-- **Access:** Expert-level diagnosis available in remote areas
-- **Scalability:** Unlimited diagnostic capacity without proportional pathologist growth
+### Milestone 3: Exploratory Data Analysis (EDA)
+
+- Analyzed fraud vs non-fraud distribution
+- Generated visualizations:
+  - Pie charts
+  - Bar plots
+  - Boxplots
+  - Heatmaps
+- Identified relationships between features and fraud
+
+---
+
+### Milestone 4: Model Development
+
+- Encoded categorical variables
+- Applied **SMOTE** to balance dataset
+- Trained multiple machine learning models:
+  - Decision Tree
+  - Random Forest
+  - KNN
+  - Logistic Regression
+  - Naive Bayes
+  - SVM
+
+---
+
+### Milestone 5: Model Deployment
+
+- Selected best performing model
+- Saved model using **Pickle**
+- Built HTML interface for prediction
+- Tested end-to-end workflow
+
+---
+
+# Expected Impact
 
 ### Operational Benefits
-- **Workload Reduction:** Automates repetitive screening
-- **Quality:** Eliminates human fatigue-induced errors
-- **Cost:** Reduces per-test operational cost
-- **Training:** Minimal staff training required
 
-### Global Health Impact
-- Contributes to WHO malaria elimination goals
-- Advances health equity across geographies
-- Enables early detection for vulnerable populations
-- Saves lives through faster treatment initiation
+- Faster fraud detection
+- Reduced manual investigation workload
+- Improved claim processing efficiency
 
-## Future Enhancements
+### Financial Benefits
 
-1. **Multi-species Detection:** Extend to P. vivax, P. malariae strains
-2. **Mobile Integration:** Android/iOS app for field workers
-3. **Whole Slide Imaging:** Process complete microscopy slides
-4. **Explainability:** Grad-CAM visualization for clinical transparency
-5. **Federated Learning:** Continuous improvement across clinic networks
-6. **Real-time Integration:** Live microscope camera feed support
-7. **Cloud Scaling:** Auto-scaling deployment on AWS/GCP
+- Prevents fraudulent payouts
+- Reduces financial losses
+- Improves profitability for insurance companies
 
-## Conclusion
-This project successfully demonstrates the practical application of deep learning to healthcare diagnostics. By automating malaria detection with 93.8% accuracy, the solution has significant potential to improve patient outcomes and reduce mortality in malaria-endemic regions worldwide.
+### Industry Benefits
+
+- Protects honest policyholders
+- Strengthens fraud prevention systems
+- Encourages data-driven decision making
+
+---
+
+# Future Enhancements
+
+1. Integration with real-time insurance claim systems
+2. Deep learning models for advanced fraud detection
+3. API-based prediction service
+4. Cloud deployment (AWS / GCP / Azure)
+5. Dashboard for fraud analytics and monitoring
+
+---
+
+# Conclusion
+
+This project demonstrates how machine learning can be applied to detect fraudulent insurance claims effectively. By analyzing historical claim data and training predictive models, the system can identify suspicious claims quickly and accurately.
+
+The solution helps insurance companies reduce fraud-related losses, improve operational efficiency, and automate claim verification processes.
+
+---
+
+# Author
+
+Project developed as part of an academic project titled:
+
+**Insurance Fraud Detection Using Machine Learning**
