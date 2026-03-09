@@ -1,152 +1,219 @@
-# Malaria Detection using Deep Learning - Solution Architecture
+# Insurance Fraud Detection using Machine Learning - Solution Architecture
 
 ## Architecture Overview
-The system follows a three-tier architecture bridging business problems to technology solutions, mapping the end-to-end journey from health worker uploading a blood smear image to delivery of an AI-powered diagnostic result.
 
-## Architectural Layers
+The system follows a layered architecture that connects the business problem of detecting fraudulent insurance claims with a machine learning–based technology solution.
 
-### Layer 1: User Interface Layer
-**Components:**
-- Health Worker / Medical Staff
-- Browser-based Flask Web UI
+The architecture describes the end-to-end process from a user entering insurance claim details to the system delivering a prediction indicating whether the claim is **Fraudulent or Genuine**.
 
-**Responsibility:**
-- Uploads blood smear cell image (JPEG/PNG) via Flask web UI
-- Can access from any browser-enabled device
-- No specialized software or hardware required
+The system integrates a machine learning model with a simple web interface to provide real-time fraud detection.
 
-### Layer 2: Flask Application Layer
-**Components:**
-- Flask Web UI
-- Validation Module
-- Image Pre-processing Module
+---
 
-**Responsibility:**
-- Receives uploaded image
-- Validates file type (JPEG/PNG only) and size
-- Pre-processes image via OpenCV/NumPy
-- Resizes to 64×64 pixels
-- Normalizes pixel values to [0,1] range
-- Converts to NumPy tensor
+# Architectural Layers
 
-### Layer 3: ML/Deep Learning Layer
-**Components:**
-- CNN Model (TensorFlow/Keras)
-- Inference Engine
+## Layer 1: User Interface Layer
 
-**Responsibility:**
-- Loads pre-trained model.h5 at startup
-- Performs forward pass through CNN layers:
-  - Conv2D (32 filters, 3×3 ReLU)
-  - MaxPooling2D
-  - Conv2D (64 filters, 3×3 ReLU)
-  - MaxPooling2D
-  - Conv2D (128 filters, 3×3 ReLU)
-  - MaxPooling2D
-  - Flatten
-  - Dense (128, Dropout 0.5)
-  - Dense (1, Sigmoid)
-- Returns probability score
-- Threshold at 0.5: ≥0.5 = Parasitized, <0.5 = Uninfected
+### Components
+- Insurance Investigator / User
+- Web Interface (HTML & CSS)
 
-### Layer 4: Data Storage Layer
-**Components:**
-- NIH Malaria Dataset (27,558 images)
-- Saved Model (.h5 file)
-- Prediction Logs (optional)
+### Responsibility
 
-**Responsibility:**
-- Training dataset (70% train, 15% validation, 15% test)
-- Pre-trained model weights in HDF5 format
-- Optional logging of prediction results
+- Allows users to input insurance claim details
+- Accessible through a simple web interface
+- Displays prediction results to the user
+- Requires minimal technical knowledge to operate
 
-### Layer 5: Output Delivery Layer
-**Components:**
-- Result Page (Jinja2 HTML template)
-- Confidence Score Display
-- Grad-CAM Visualization (optional)
-- Performance Metrics
+The interface serves as the entry point where claim information is submitted for fraud analysis.
 
-**Responsibility:**
-- Displays classification label (Parasitized/Uninfected)
-- Shows confidence score as percentage
-- Optional: Grad-CAM heatmap highlighting infected regions
-- Visualization of evaluation metrics
+---
 
-## Data Flow
+## Layer 2: Application Processing Layer
 
-1. **Image Upload**: Health worker selects and uploads cell image
-2. **Input Validation**: Flask validates file type and size
-3. **Pre-processing**: OpenCV resizes, normalizes, converts to tensor
-4. **CNN Inference**: Model performs forward pass, outputs probability
-5. **Threshold Decision**: Probability compared against 0.5 threshold
-6. **Result Delivery**: Prediction and confidence rendered on result page
-7. **Optional Logging**: Results logged with timestamp for audit trail
+### Components
+- Input Validation Module
+- Data Preprocessing Module
+- Feature Processing Module
 
-## Technology Stack
+### Responsibility
 
-**Frontend Layer:**
-- HTML5, CSS3, JavaScript
-- Jinja2 Templates (Flask)
+- Receives claim information from the user interface
+- Validates input values to ensure correct format
+- Converts input data into a structured format for model prediction
+- Applies preprocessing steps similar to training pipeline:
+  - Encoding categorical variables
+  - Feature scaling
+  - Feature alignment with trained model
 
-**Backend Layer:**
-- Python 3.8
-- Flask Web Framework
-- OpenCV (cv2)
+This layer prepares the input data before passing it to the machine learning model.
+
+---
+
+## Layer 3: Machine Learning Model Layer
+
+### Components
+- Trained Machine Learning Model
+- Prediction Engine
+- Scaler and Feature Encoder
+
+### Responsibility
+
+- Loads the trained model file (`fraud_model.pkl`)
+- Applies the same preprocessing used during training
+- Performs prediction using machine learning algorithms
+
+Models used in development include:
+
+- Decision Tree
+- Random Forest
+- K-Nearest Neighbors
+- Logistic Regression
+- Naive Bayes
+- Support Vector Machine
+
+The final selected model generates a prediction indicating whether a claim is **Fraudulent or Genuine**.
+
+---
+
+## Layer 4: Data Storage Layer
+
+### Components
+- Insurance Claims Dataset
+- Trained Model File
+- Feature Columns File
+- Scaler Object
+
+### Responsibility
+
+- Stores historical insurance claim data used for model training
+- Stores trained machine learning model in `.pkl` format
+- Stores preprocessing objects such as:
+  - Feature columns
+  - Scaler
+  - Encoders
+
+These files ensure that predictions follow the same pipeline used during training.
+
+---
+
+## Layer 5: Output Delivery Layer
+
+### Components
+- Prediction Result Page
+- Fraud / Genuine Label Display
+
+### Responsibility
+
+- Displays prediction result to the user
+- Shows whether the claim is:
+
+  **Fraudulent**  
+  **or**  
+  **Genuine**
+
+- Provides quick decision support for investigators
+
+This layer communicates the final prediction back to the user interface.
+
+---
+
+# Data Flow
+
+1. **User Input**  
+   User enters insurance claim information in the web interface.
+
+2. **Input Validation**  
+   The application validates the entered data for correctness.
+
+3. **Data Preprocessing**  
+   Input data is processed using:
+   - Encoding of categorical variables
+   - Feature scaling
+   - Feature alignment with training dataset
+
+4. **Model Prediction**  
+   The trained machine learning model performs prediction.
+
+5. **Fraud Classification**  
+   The system determines whether the claim is **Fraudulent or Genuine**.
+
+6. **Result Display**  
+   The prediction result is displayed to the user.
+
+---
+
+# Technology Stack
+
+## Frontend Layer
+- HTML
+- CSS
+
+## Backend & Processing
+- Python
+- Pandas
 - NumPy
-- Pillow (PIL)
 
-**ML Layer:**
-- TensorFlow 2.x
-- Keras
-- Scikit-learn (metrics)
+## Machine Learning
+- Scikit-learn
+- SMOTE (Imbalanced-learn)
 
-**Visualization:**
+## Data Visualization
 - Matplotlib
 - Seaborn
 
-**Persistence:**
-- HDF5 format (.h5) for model storage
-- Optional SQLite/file-based logging
+## Model Persistence
+- Pickle (.pkl)
 
-**Version Control & Deployment:**
-- Git, GitHub
-- Local Flask server (development)
-- AWS EC2 / GCP / Heroku (production)
-- Docker (containerization)
+## Version Control
+- Git
+- GitHub
 
-## Performance Metrics
+---
 
-| Metric | Training | Validation | Test |
-|--------|----------|-----------|------|
-| Accuracy | 96.2% | 94.1% | 93.8% |
-| Precision | 95.8% | 93.6% | 93.2% |
-| Recall | 96.5% | 94.4% | 94.0% |
-| F1 Score | 96.1% | 94.0% | 93.6% |
+# Performance Metrics
 
-## Deployment Environments
+The machine learning models were evaluated using multiple metrics:
 
-**Local Deployment:**
-- Python Flask development server
-- Localhost:5000
-- Ideal for testing and demos
+| Metric | Description |
+|------|-------------|
+| Accuracy | Overall correctness of predictions |
+| Precision | Correct fraud predictions among predicted fraud cases |
+| Recall | Ability to correctly detect fraudulent claims |
+| F1 Score | Balance between precision and recall |
+| ROC-AUC | Model ability to distinguish fraud vs genuine claims |
 
-**Cloud Deployment:**
-- AWS EC2 / Google Cloud Platform / Azure
-- Gunicorn WSGI server
-- HTTPS/TLS encryption
-- Rate limiting to prevent abuse
+These metrics ensure reliable and effective fraud detection.
 
-**Edge Deployment:**
-- Raspberry Pi, Android tablets
-- Offline capability
-- No internet connectivity required
+---
 
-## Key Design Decisions
+# Deployment Environment
 
-- **CNN vs Classical ML**: CNN superior for image feature extraction
-- **Flask vs Alternative Frameworks**: Lightweight, Python-native, minimal overhead
-- **HDF5 Model Format**: Standard for Keras, efficient for inference
-- **Binary Classification**: Simplifies problem, reduces latency
-- **Stateless API**: Enables horizontal scaling
-- **Input Preprocessing**: Standardization ensures model consistency
+## Local Deployment
+- Python environment
+- Model prediction via local interface
+- Suitable for testing and demonstrations
+
+## Web Deployment (Future Scope)
+- Integration with insurance claim management systems
+- Cloud deployment on AWS / GCP / Azure
+- Real-time fraud detection services
+
+---
+
+# Key Design Decisions
+
+### Multiple Model Comparison
+Several machine learning models were tested to identify the best performing algorithm for fraud detection.
+
+### Handling Imbalanced Data
+SMOTE was used to address the imbalance between fraudulent and genuine claims.
+
+### Feature Engineering
+Categorical features were encoded using appropriate encoding techniques to improve model performance.
+
+### Lightweight Deployment
+The system uses a simple HTML and CSS interface to ensure ease of use and quick deployment.
+
+### Automated Fraud Detection
+The solution enables fast and reliable fraud detection without requiring extensive manual investigation.
