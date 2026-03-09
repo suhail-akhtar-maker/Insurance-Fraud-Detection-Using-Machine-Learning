@@ -1,51 +1,173 @@
-# Malaria Detection Project - Planning
+# Car Insurance Claims Fraud Detection - Project Planning
 
 ## Project Overview
-Team ID: PNT2026TMID-MLD
-Project Complexity: Medium
-Duration: 5h 0m
-Progress: 90%
+Project Title: Car Insurance Claims Fraud Detection  
+Project Complexity: Medium–High  
+Project Duration: 24 Days  
+Current Progress: 90%
 
-## Sprints
+This project develops a **Machine Learning system that detects fraudulent car insurance claims** using historical claim data.  
+The system analyzes claim features such as policy type, accident area, driver rating, and past claims to predict whether a claim is **Fraudulent or Genuine**.
 
-### Sprint 1: Dataset Collection (Days 1-6)
-- Download and organize NIH Malaria Cell Images Dataset (27,558 images)
-- Verify dataset integrity and check image formats
-- Split dataset: Train 70%, Validation 15%, Test 15%
-- Apply data augmentation (flip, zoom, rotation)
-- **Story Points: 20**
+The final system includes:
+- Data preprocessing and feature engineering
+- Multiple machine learning models
+- Hyperparameter tuning
+- Model comparison and evaluation
+- Deployment-ready trained model
+- Web interface displaying **Fraud / Genuine prediction**
 
-### Sprint 2: Data Visualization (Days 7-12)
-- Plot sample images from both classes (Parasitized/Uninfected)
-- Generate class distribution charts
-- Plot training/validation accuracy-loss curves
-- Generate confusion matrix and classification reports
-- Visualize sample predictions with labels
-- **Story Points: 20**
+---
 
-### Sprint 3: Model Development (Days 13-18)
-- Design CNN architecture with Conv2D, MaxPooling, Dense, Dropout
-- Train model using Binary Cross-Entropy loss and Adam optimizer
-- Evaluate on test set (Target: 90% accuracy)
-- Save model in HDF5 format
-- **Story Points: 20**
+# Sprints
 
-### Sprint 4: Application Building (Days 19-24)
-- Build Flask web application with image upload functionality
-- Implement server-side image validation (JPEG/PNG only)
-- Design clean HTML/CSS frontend
-- Deploy locally and verify end-to-end functionality
-- Push final codebase to GitHub
-- **Story Points: 20**
+## Sprint 1: Data Collection & Preparation (Days 1–6)
 
-## Team Velocity
-- Velocity: 20 story points per sprint
-- Sprint Duration: 6 days
-- Average Velocity: 3.33 pts/day
-- Total Project Duration: 24 days
+Tasks completed:
 
-## Key Deliverables
-✓ Trained CNN model (93.8% test accuracy)
-✓ Flask web application
-✓ Complete documentation
-✓ GitHub repository
+- Load **Car Insurance Claims dataset** (`carclaims.csv`)
+- Inspect dataset structure (33 columns, 15,420 records)
+- Remove irrelevant columns such as:
+  - PolicyNumber
+  - RepNumber
+  - Make
+  - BasePolicy
+  - VehicleCategory
+  - Year
+- Clean dataset by:
+  - Removing invalid age values
+  - Handling missing values using median and mode
+- Detect and remove outliers using **IQR method**
+- Reduce dataset noise and improve data quality
+
+Result:
+- Final cleaned dataset with **14,408 records and 18 columns**
+
+**Story Points: 20**
+
+---
+
+## Sprint 2: Exploratory Data Analysis (EDA) (Days 7–12)
+
+Tasks completed:
+
+- Analyze fraud vs non-fraud distribution
+- Visualize class imbalance (Fraud ≈ 5.7%)
+- Perform **Chi-Square tests** for categorical variables
+- Generate visualizations:
+  - Pie charts for fraud distribution
+  - Bar charts for claim counts
+  - Boxplots and violin plots
+  - KDE distribution plots
+  - Pairplots for numeric relationships
+  - Heatmaps for feature correlations
+- Identify patterns between fraud cases and features such as:
+  - Policy Type
+  - Accident Area
+  - Fault
+  - Driver Rating
+
+**Story Points: 20**
+
+---
+
+## Sprint 3: Feature Engineering & Model Development (Days 13–18)
+
+Tasks completed:
+
+### Feature Engineering
+
+- Encode binary variables:
+  - PoliceReportFiled
+  - Fault
+
+- Apply **Ordinal Encoding** for ordered features:
+  - Days:Policy-Accident
+  - Days:Policy-Claim
+  - PastNumberOfClaims
+  - NumberOfSuppliments
+  - AgeOfVehicle
+  - VehiclePrice
+  - AddressChange-Claim
+
+- Apply **One-Hot Encoding** for nominal features:
+  - AccidentArea
+  - Sex
+  - MaritalStatus
+  - PolicyType
+  - AgentType
+
+- Remove:
+  - Duplicate records
+  - Near-zero variance features
+  - Highly correlated features
+
+Final dataset:
+- **18 selected features**
+
+### Data Preparation
+
+- Train/Test split (80% / 20%)
+- Handle class imbalance using **SMOTE**
+- Apply **StandardScaler** for feature scaling
+
+### Machine Learning Models Trained
+
+The following algorithms were trained and evaluated:
+
+1. Decision Tree
+2. Random Forest
+3. K-Nearest Neighbors (KNN)
+4. Logistic Regression
+5. Naive Bayes
+6. Support Vector Machine (SVM)
+
+Evaluation metrics used:
+
+- Accuracy
+- Precision
+- Recall
+- F1 Score
+- ROC-AUC
+
+**Story Points: 20**
+
+---
+
+## Sprint 4: Model Evaluation, Tuning & Deployment (Days 19–24)
+
+### Performance Testing
+
+Models were compared using:
+
+- Confusion matrices
+- ROC curves
+- Recall comparison
+- F1 score comparison
+- ROC-AUC scores
+
+### Hyperparameter Tuning
+
+GridSearchCV was applied for:
+
+- Decision Tree
+- Random Forest
+- Logistic Regression
+
+Best parameters were selected based on **Recall score**, which is important for fraud detection.
+
+### Final Model Selection
+
+Best performing model:
+
+**Naive Bayes**
+
+Performance highlights:
+
+- High fraud detection recall
+- Balanced model performance
+- Fast prediction speed
+
+### Model Deployment Preparation
+
+Saved deployment files:
